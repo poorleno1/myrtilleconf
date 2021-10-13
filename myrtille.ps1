@@ -45,8 +45,57 @@
             DependsOn = "[Script]DownloadMyrtille"
         }
 
+
+        Registry RegistryKeyApplicationsfDisabledAllowList
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList"
+            ValueName   = "fDisabledAllowList"
+            ValueType   = "Dword"
+            valueData   = 1
+        }
+
+        Registry RegistryKeyApplications
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications"
+            ValueName   = ""
+        }
+
+        Registry RegistryKeyApplicationsCalc
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+            ValueName   = ""
+            DependsOn   = "[Registry]RegistryKeyApplications"
+        }
+
+        Registry RegistryKeyApplicationsCalcSetting1
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+            ValueName   = "Name"
+            valueData   = "calc.exe"
+            DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
+        }
+
+        Registry RegistryKeyApplicationsCalcSetting2
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+            ValueName   = "Path"
+            valueData   = "c:\windows\system32"
+            DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
+        }
+
+
     WindowsFeature RDS-RD-Server {
         Name = "RDS-RD-Server"
+        Ensure = "Present"
+    }
+
+    WindowsFeature RDS-Licensing {
+        Name = "RDS-Licensing"
         Ensure = "Present"
     }
 
@@ -54,6 +103,27 @@
         Name = "RSAT-RDS-Tools"
         Ensure = "Present"
     }
+
+    WindowsFeature RSAT-RDS-Gateway {
+        Name = "RSAT-RDS-Gateway"
+        Ensure = "Present"
+    }
+
+    WindowsFeature RSAT-RDS-Licensing-Diagnosis-UI {
+        Name = "RSAT-RDS-Licensing-Diagnosis-UI"
+        Ensure = "Present"
+    }
+    
+    WindowsFeature RDS-Licensing-UI {
+        Name = "RDS-Licensing-UI"
+        Ensure = "Present"
+    }
+    
+
+    #WindowsFeature RSAT-RDS-Tools {
+    #    Name = "RSAT-RDS-Tools"
+    #    Ensure = "Present"
+    #}
 
     WindowsFeature RDS-Gateway {
         Name = "RDS-Gateway"
