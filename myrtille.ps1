@@ -39,7 +39,7 @@
        Package MyrtilleInstall {
             Ensure    = "Present"  # You can also set Ensure to "Absent"
             Path      = "C:\scripts\Myrtille_2.9.2_x86_x64_Setup.msi"
-            #Arguments = 'SERVERURL="Accsrv001p:8096"'
+            #Arguments = ''
             Name      = "Myrtille"
             ProductId = "342A3EAA-FDA8-4C61-AC22-29552B7A8773"
             DependsOn = "[Script]DownloadMyrtille"
@@ -49,7 +49,18 @@
         Name = "RDS-RD-Server"
         Ensure = "Present"
     }
-       
+
+    WindowsFeature RSAT-RDS-Tools {
+        Name = "RSAT-RDS-Tools"
+        Ensure = "Present"
+    }
+
+    WindowsFeature RDS-Gateway {
+        Name = "RDS-Gateway"
+        Ensure = "Present"
+    }
+
+    
         
     }
 
