@@ -89,53 +89,12 @@
         }
 
 
-    WindowsFeature RDS-RD-Server {
-        Name = "RDS-RD-Server"
-        Ensure = "Present"
+        WindowsFeature RDS-RD-Server 
+        {
+            Name = "RDS-RD-Server"
+            Ensure = "Present"
+        }
     }
-
-    WindowsFeature RDS-Licensing {
-        Name = "RDS-Licensing"
-        Ensure = "Present"
-    }
-
-    WindowsFeature RSAT-RDS-Tools {
-        Name = "RSAT-RDS-Tools"
-        Ensure = "Present"
-    }
-
-    WindowsFeature RSAT-RDS-Gateway {
-        Name = "RSAT-RDS-Gateway"
-        Ensure = "Present"
-    }
-
-    WindowsFeature RSAT-RDS-Licensing-Diagnosis-UI {
-        Name = "RSAT-RDS-Licensing-Diagnosis-UI"
-        Ensure = "Present"
-    }
-    
-    WindowsFeature RDS-Licensing-UI {
-        Name = "RDS-Licensing-UI"
-        Ensure = "Present"
-    }
-    
-
-    #WindowsFeature RSAT-RDS-Tools {
-    #    Name = "RSAT-RDS-Tools"
-    #    Ensure = "Present"
-    #}
-
-    WindowsFeature RDS-Gateway {
-        Name = "RDS-Gateway"
-        Ensure = "Present"
-    }
-
-    
-        
-    }
-
-
-
 }
 
 myrtille
