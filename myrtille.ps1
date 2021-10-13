@@ -94,6 +94,16 @@
             Name = "RDS-RD-Server"
             Ensure = "Present"
         }
+        
+        Registry RegistryKeyLicensing
+        {
+            Ensure      = "Present"  # You can also set Ensure to "Absent"
+            Key         = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\RCM\Licensing Core"
+            ValueName   = "LicensingMode"
+            valueData   = "4"
+            ValueType   = "Dword"
+            DependsOn   = "[WindowsFeature]RDS-RD-Server"
+        }
     }
 }
 
