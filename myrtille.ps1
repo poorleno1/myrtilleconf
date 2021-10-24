@@ -12,31 +12,29 @@
             Ensure          = "Present"
         }
          
-       Script DownloadMyrtille {
+        Script DownloadMyrtille {
        
-           GetScript = {
+            GetScript  = {
                 $result = Test-Path "c:\scripts\Myrtille_2.9.2_x86_x64_Setup.msi"
                 return @{ "Result" = $result }
-           }
+            }
 
-           TestScript = {
+            TestScript = {
                 $state = [scriptblock]::Create($GetScript).Invoke()
                 
-                if ($state.Result)
-                {
+                if ($state.Result) {
                     return $true
                 }
-                else
-                {
+                else {
                     return $false
                 }
-           }
-           SetScript = {
+            }
+            SetScript  = {
                 Start-BitsTransfer "https://github.com/cedrozor/myrtille/releases/download/v2.9.2/Myrtille_2.9.2_x86_x64_Setup.msi" -Destination C:\scripts
-           }
-       }
+            }
+        }
        
-       Package MyrtilleInstall {
+        Package MyrtilleInstall {
             Ensure    = "Present"  # You can also set Ensure to "Absent"
             Path      = "C:\scripts\Myrtille_2.9.2_x86_x64_Setup.msi"
             #Arguments = ''
@@ -46,64 +44,64 @@
         }
 
 
-        Registry RegistryKeyApplicationsfDisabledAllowList
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList"
-            ValueName   = "fDisabledAllowList"
-            ValueType   = "Dword"
-            valueData   = 1
-        }
+        # Registry RegistryKeyApplicationsfDisabledAllowList
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList"
+        #     ValueName   = "fDisabledAllowList"
+        #     ValueType   = "Dword"
+        #     valueData   = 1
+        # }
 
-        Registry RegistryKeyApplications
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications"
-            ValueName   = ""
-        }
+        # Registry RegistryKeyApplications
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications"
+        #     ValueName   = ""
+        # }
 
-        Registry RegistryKeyApplicationsCalc
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
-            ValueName   = ""
-            DependsOn   = "[Registry]RegistryKeyApplications"
-        }
+        # Registry RegistryKeyApplicationsCalc
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+        #     ValueName   = ""
+        #     DependsOn   = "[Registry]RegistryKeyApplications"
+        # }
 
-        Registry RegistryKeyApplicationsCalcSetting1
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
-            ValueName   = "Name"
-            valueData   = "calc.exe"
-            DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
-        }
+        # Registry RegistryKeyApplicationsCalcSetting1
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+        #     ValueName   = "Name"
+        #     valueData   = "calc.exe"
+        #     DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
+        # }
 
-        Registry RegistryKeyApplicationsCalcSetting2
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
-            ValueName   = "Path"
-            valueData   = "c:\windows\system32"
-            DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
-        }
+        # Registry RegistryKeyApplicationsCalcSetting2
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\Calc"
+        #     ValueName   = "Path"
+        #     valueData   = "c:\windows\system32"
+        #     DependsOn   = "[Registry]RegistryKeyApplicationsCalc"
+        # }
 
 
-        WindowsFeature RDS-RD-Server 
-        {
-            Name = "RDS-RD-Server"
-            Ensure = "Present"
-        }
+        # WindowsFeature RDS-RD-Server 
+        # {
+        #     Name = "RDS-RD-Server"
+        #     Ensure = "Present"
+        # }
         
-        Registry RegistryKeyLicensing
-        {
-            Ensure      = "Present"  # You can also set Ensure to "Absent"
-            Key         = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\RCM\Licensing Core"
-            ValueName   = "LicensingMode"
-            valueData   = "4"
-            ValueType   = "Dword"
-            DependsOn   = "[WindowsFeature]RDS-RD-Server"
-        }
+        # Registry RegistryKeyLicensing
+        # {
+        #     Ensure      = "Present"  # You can also set Ensure to "Absent"
+        #     Key         = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\RCM\Licensing Core"
+        #     ValueName   = "LicensingMode"
+        #     valueData   = "4"
+        #     ValueType   = "Dword"
+        #     DependsOn   = "[WindowsFeature]RDS-RD-Server"
+        # }
     }
 }
 
